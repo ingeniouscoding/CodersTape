@@ -4,10 +4,12 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', 'HomeController@index');
-Route::get('contact', 'ContactFormController@create');
-Route::post('contact', 'ContactFormController@store');
+Route::get('contact', 'ContactFormController@create')->name('contact.create');
+Route::post('contact', 'ContactFormController@store')->name('contact.store');
 
-Route::view('about', 'about')->middleware('fake');
+Route::view('about', 'about')
+    ->name('about')
+    ->middleware('fake');
 
 Route::resource('customers', 'CustomersController');
 
