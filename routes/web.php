@@ -7,7 +7,7 @@ Route::get('/', 'HomeController@index');
 Route::get('contact', 'ContactFormController@create');
 Route::post('contact', 'ContactFormController@store');
 
-Route::view('about', 'about');
+Route::view('about', 'about')->middleware('fake');
 
 Route::resource('customers', 'CustomersController');
 
