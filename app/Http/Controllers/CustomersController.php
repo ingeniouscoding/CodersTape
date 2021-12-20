@@ -9,6 +9,11 @@ use Symfony\Component\VarDumper\Cloner\Data;
 
 class CustomersController extends Controller
 {
+    public function __constructor()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $customers = Customer::all();
