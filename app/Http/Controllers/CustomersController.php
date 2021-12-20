@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class CustomersController extends Controller
 {
@@ -18,20 +19,14 @@ class CustomersController extends Controller
     public function create()
     {
         $companies = Company::all();
+        $customer = new Customer();
 
-        return view('customers.create', compact('companies'));
+        return view('customers.create', compact('companies', 'customer'));
     }
 
     public function store()
     {
-        $data = request()->validate([
-            'name' => 'required|min:3',
-            'email' => 'required|email',
-            'active' => 'required',
-            'company_id' => 'required',
-        ]);
-
-        Customer::create($data);
+        Customer::create($this->validateRequest());
 
         return redirect('customers');
     }
@@ -50,13 +45,20 @@ class CustomersController extends Controller
 
     public function update(Customer $customer)
     {
+        $customer->update($this->validateRequest());
+
+        return redirect('customers/' . $customer->id);
+    }
+
+    private function validateRequest()
+    {
         $data = request()->validate([
             'name' => 'required|min:3',
             'email' => 'required|email',
+            'active' => 'required',
+            'company_id' => 'required',
         ]);
 
-        $customer->update($data);
-
-        return redirect('customers/' . $customer->id);
+        return $data;
     }
 }
