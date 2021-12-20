@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
 use App\Models\Company;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Symfony\Component\VarDumper\Cloner\Data;
+use App\Events\NewCustomerHasRegisteredEvent;
 
 class CustomersController extends Controller
 {
@@ -31,7 +32,9 @@ class CustomersController extends Controller
 
     public function store()
     {
-        Customer::create($this->validateRequest());
+        $customer = Customer::create($this->validateRequest());
+
+        event(new NewCustomerHasRegisteredEvent($customer));
 
         return redirect('customers');
     }
@@ -54,6 +57,7 @@ class CustomersController extends Controller
 
         return redirect('customers/' . $customer->id);
     }
+
     public function destroy(Customer $customer)
     {
         $customer->delete();
