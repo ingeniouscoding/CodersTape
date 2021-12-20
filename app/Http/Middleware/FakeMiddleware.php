@@ -15,7 +15,7 @@ class FakeMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (now()->format('s') % 13 == 0) {
+        if (now()->format('s') % 13 != 0) {
             return $next($request);
         }
         return response('Not Allowed');
