@@ -79,17 +79,12 @@ class CustomersController extends Controller
 
     private function validateRequest()
     {
-        return tap(request()->validate([
-            'name' => 'required|min:3',
-            'email' => 'required|email',
-            'active' => 'required',
+        return request()->validate([
+            'name'       => 'required|min:3',
+            'email'      => 'required|email',
+            'active'     => 'required',
             'company_id' => 'required',
-        ]), function () {
-            if (request()->hasFile('image')) {
-                request()->validate([
-                    'image' => 'mimes:jpeg,jpg,png,bmp|max:5000',
-                ]);
-            }
-        });
+            'image'      => 'sometimes|mimes:jpeg,jpg,png,bmp|max:5000',
+        ]);
     }
 }
