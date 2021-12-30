@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 use Symfony\Component\VarDumper\Cloner\Data;
 use App\Events\NewCustomerHasRegisteredEvent;
 
@@ -67,13 +68,16 @@ class CustomersController extends Controller
         return redirect('customers');
     }
 
-    private function storeImage($customer)
+    private function storeImage(Customer $customer)
     {
         if (request()->has('image')) {
             $customer->update([
                 'image' => request()->image->store('uploads', 'public'),
             ]);
         }
+
+        $image = Image::make(public_path('storage/' . $customer->image))->fit(300, 300);
+        $image->save();
     }
 
 
