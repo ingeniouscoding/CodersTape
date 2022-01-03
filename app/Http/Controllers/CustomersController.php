@@ -70,11 +70,13 @@ class CustomersController extends Controller
 
     private function storeImage(Customer $customer)
     {
-        if (request()->has('image')) {
-            $customer->update([
-                'image' => request()->image->store('uploads', 'public'),
-            ]);
+        if (!request()->has('image')) {
+            return;
         }
+
+        $customer->update([
+            'image' => request()->image->store('uploads', 'public'),
+        ]);
 
         $image = Image::make(public_path('storage/' . $customer->image))->fit(300, 300);
         $image->save();
