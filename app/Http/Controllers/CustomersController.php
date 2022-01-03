@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Symfony\Component\VarDumper\Cloner\Data;
 use App\Events\NewCustomerHasRegisteredEvent;
+use App\Policies\CustomerPolicy;
 
 class CustomersController extends Controller
 {
@@ -33,10 +34,12 @@ class CustomersController extends Controller
 
     public function store()
     {
+        $this->authorize('create', Customer::class);
+
         $customer = Customer::create($this->validateRequest());
         $this->storeImage($customer);
 
-        event(new NewCustomerHasRegisteredEvent($customer));
+        NewCustomerHasRegisteredEvent::dispatch($customer);
 
         return redirect('customers');
     }
@@ -63,6 +66,8 @@ class CustomersController extends Controller
 
     public function destroy(Customer $customer)
     {
+        $this->authorize('delete', $customer);
+
         $customer->delete();
 
         return redirect('customers');

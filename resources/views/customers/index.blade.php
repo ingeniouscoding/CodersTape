@@ -6,7 +6,9 @@
     <div class="row">
         <div class="col-12">
             <h1>Customers</h1>
-            <p><a href="customers/create">Add New Customer</a></p>
+            @can('create', \App\Models\Customer::class)
+                <p><a href="customers/create">Add New Customer</a></p>
+            @endcan
         </div>
     </div>
 
@@ -16,7 +18,11 @@
                 {{ $customer->id }}
             </div>
             <div class="col-4">
-                <a href="/customers/{{ $customer->id }}">{{ $customer->name }}</a>
+                @can('view', $customer)
+                    <a href="/customers/{{ $customer->id }}">{{ $customer->name }}</a>
+                @else
+                    <span>{{ $customer->name }}</span>
+                @endcan
             </div>
             <div class="col-4">{{ $customer->company->name }}</div>
             <div class="col-2">{{ $customer->active }}</div>
