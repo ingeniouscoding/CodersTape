@@ -1,9 +1,6 @@
 <template>
   <div>
     <button :type="type" class="my-button" v-text="test.name">My Button</button>
-    <ol>
-      <li v-for="(item, index) in arr" :key="index">{{ item }}</li>
-    </ol>
   </div>
 </template>
 
@@ -14,16 +11,11 @@ export default {
   data() {
     return {
       test: "",
-      arr: [],
     };
   },
 
   mounted() {
     console.log("Component mounted.");
-
-    for (let i = 0; i < 20; i++) {
-      this.arr.push(Math.random());
-    }
 
     axios.post("api/vue", {}).then((res) => {
       this.test = res.data;

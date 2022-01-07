@@ -87,6 +87,7 @@ class CustomersController extends Controller
         $image->save();
     }
 
+
     private function validateRequest()
     {
         return request()->validate([

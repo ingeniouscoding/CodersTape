@@ -2276,26 +2276,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["type"],
   data: function data() {
     return {
-      test: "",
-      arr: []
+      test: ""
     };
   },
   mounted: function mounted() {
     var _this = this;
 
     console.log("Component mounted.");
-
-    for (var i = 0; i < 20; i++) {
-      this.arr.push(Math.random());
-    }
-
     axios.post("api/vue", {}).then(function (res) {
       _this.test = res.data;
     });
@@ -38544,14 +38535,6 @@ var render = function () {
         domProps: { textContent: _vm._s(_vm.test.name) },
       },
       [_vm._v("My Button")]
-    ),
-    _vm._v(" "),
-    _c(
-      "ol",
-      _vm._l(_vm.arr, function (item, index) {
-        return _c("li", { key: index }, [_vm._v(_vm._s(item))])
-      }),
-      0
     ),
   ])
 }
